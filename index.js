@@ -9,17 +9,29 @@ $(document).on("keypress", function () {
     startGame.randomBox();
   }
 });
+$("#start-btn").on("click", function () {
+  if (startGame.gameOver === true) 
+  {
+    $("#level-title").text("Press Any Key to Start");
+    startGame.gameOver=false;
+    startGame.randomBox();
+  }
+});
 
-$(".btn").on("click", function () {
+$(".btns").on("click", function () {
   $(this)
     .addClass("pressed")
     .animate({ opacity: 1 }, 200, function () {
       $(this).removeClass("pressed").css("opacity", "");
     });
-    console.log(this);
-    startGame.playSound($(this).attr("id"));
   if (startGame.gameOver === false) {
+    startGame.playSound($(this).attr("id"));
     startGame.check($(this).attr("id"));
+  }
+  else
+  {
+    var wrong=new Audio("sounds/wrong.mp3");
+    wrong.play();
   }
 });
 
@@ -58,7 +70,8 @@ function GameData()
         document.querySelector(select).classList.add("pressed");
         }, 500);
         this.playSound(this.clickOrder[this.clickOrder.length - 1]);
-        $("#" + this.clickOrder[this.clickOrder.length - 1]).animate({ opacity: 1 },1000,function () {
+
+        $("#" + this.clickOrder[this.clickOrder.length - 1]).animate({ opacity: 1 },800,function () {
             $(this).removeClass("pressed").css("opacity", "");
           });
     };
